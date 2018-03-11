@@ -1,0 +1,19 @@
+{
+  "name": "iiko-request",
+  "version": "0.0.1",
+  "description": "iiko http request wrapper",
+  "main": "iiko-request.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pub42/iiko-request.git"
+  },
+  "author": "pub42",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pub42/iiko-request/issues"
+  },
+  "homepage": "https://github.com/pub42/iiko-request#readme"
+}
