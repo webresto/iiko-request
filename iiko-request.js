@@ -89,7 +89,9 @@ function get(url) {
             console.log(e.message);
           }
         });
-      });
+      }).on('error', err => {
+        reject(err);
+      });;
     });
   });
 };
@@ -125,7 +127,9 @@ function post(url, data) {
             console.log(e.message);
           }
         });
-      });
+      }).on('error', err => {
+        reject(err);
+      });;
       req.write(JSON.stringify(data));
       req.end();
     });
@@ -145,12 +149,13 @@ function getToken() {
       path: path,
       agent: false // create a new agent just for this one request
     }, (res) => {
-
       res.on('data', (token) => {
         access_token = JSON.parse(token);
         resolve(access_token);
       });
-    });
+    }).on('error', err => {
+      reject(err);
+    });;
   });
   return promise;
   //console.log(" OUT __getToken");
@@ -181,7 +186,9 @@ function checkToken() {
           resolve(access_token);
         }
       });
-    });
+    }).on('error', err => {
+      reject(err);
+    });;
   });
 
   return promise
