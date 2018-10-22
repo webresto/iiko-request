@@ -87,6 +87,7 @@ function get(url) {
           } catch (e) {
             console.log(rawData);
             console.log(e.message);
+            reject(e);
           }
         });
       }).on('error', err => {
@@ -125,6 +126,7 @@ function post(url, data) {
           } catch (e) {
             console.log(rawData);
             console.log(e.message);
+            reject(e);
           }
         });
       }).on('error', err => {
