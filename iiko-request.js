@@ -17,7 +17,7 @@ exports.init = function (_config) {
 ///////////////////////////////////////////////////////////////////////////////////
 
 exports.call = function (method, params, modifier, data) {
-  return promise = new Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     switch (method.type) {
 
       case 'GET':
@@ -28,7 +28,7 @@ exports.call = function (method, params, modifier, data) {
           error => {
             reject(error);
           });
-        break
+        break;
 
       case 'POST':
         post(fetchGETurl(method, params, modifier), data).then(
@@ -38,13 +38,12 @@ exports.call = function (method, params, modifier, data) {
           error => {
             reject(error);
           });
-        break
+        break;
 
       default:
         reject('Method is not defined');
         break
     }
-
   });
 };
 
@@ -65,7 +64,7 @@ function fetchGETurl(method, data, modifier) {
 }
 
 function get(url) {
-  return promise = new Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     checkToken().then(function (token) {
       let path = url + '&access_token=' + token;
       console.log(path);
@@ -92,13 +91,13 @@ function get(url) {
         });
       }).on('error', err => {
         reject(err);
-      });;
-    });
+      });
+    }, reason => reject(reason));
   });
-};
+}
 
 function post(url, data) {
-  return promise = new Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     checkToken().then(function (token) {
       let path = url + '&access_token=' + token;
       console.log(path);
@@ -113,7 +112,7 @@ function post(url, data) {
         }
       }, (res) => {
         res.setEncoding('utf8');
-        
+
         let rawData = '';
         res.on('data', (data) => {
           rawData += data;
@@ -131,19 +130,19 @@ function post(url, data) {
         });
       }).on('error', err => {
         reject(err);
-      });;
+      });
       req.write(JSON.stringify(data));
       req.end();
-    });
+    }, reason => reject(reason));
   });
-};
+}
 
 ///////////////////////////////////////////////////////////////////////////////////
 
 function getToken() {
   // Получение токена
   //console.log(" IN __getToken");
-  let promise = new Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     let path = '/api/0/auth/access_token?user_id=' + config.login + '&user_secret=' + config.password;
     https.get({
       hostname: config.host,
@@ -152,22 +151,25 @@ function getToken() {
       agent: false // create a new agent just for this one request
     }, (res) => {
       res.on('data', (token) => {
-        access_token = JSON.parse(token);
-        resolve(access_token);
+        try {
+          access_token = JSON.parse(token);
+          resolve(access_token);
+        } catch (e) {
+          reject(e);
+        }
       });
     }).on('error', err => {
       reject(err);
-    });;
+    });
   });
-  return promise;
   //console.log(" OUT __getToken");
-};
+}
 
 ///////////////////////////////////////////////////////////////////////////////////
 function checkToken() {
   // Проверяет токен, если токен нерабочий то получет токен
   //console.log("IN __checkToken");
-  let promise = new Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     let path = '/api/0/auth/echo?msg=true&access_token=' + access_token;
     //console.log(path);
     https.get({
@@ -178,21 +180,19 @@ function checkToken() {
     }, (res) => {
 
       res.on('data', (response) => {
-        if (response.toString() == '"Wrong access token"') {
+        if (response.toString() === '"Wrong access token"') {
           getToken().then(function (token) {
             resolve(token);
           });
-        }
-
-        if (response.toString() == '"true"') {
+        } else if (response.toString() === '"true"') {
           resolve(access_token);
+        } else {
+          reject('response undefined ' + response);
         }
       });
     }).on('error', err => {
       reject(err);
-    });;
-  });
-
-  return promise
+    });
+  })
   //console.log(" OUT  __checkToken");
-};
+}
