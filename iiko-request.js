@@ -183,6 +183,8 @@ function checkToken() {
         if (response.toString() === '"Wrong access token"') {
           getToken().then(function (token) {
             resolve(token);
+          }).catch(err => {
+            reject(err);
           });
         } else if (response.toString() === '"true"') {
           resolve(access_token);
