@@ -67,7 +67,7 @@ function get(url) {
   return new Promise(function (resolve, reject) {
     checkToken().then(function (token) {
       let path = url + '&access_token=' + token;
-      console.log(path);
+      // console.log(path);
       https.get({
         hostname: config.host,
         port: config.port,
@@ -100,7 +100,7 @@ function post(url, data) {
   return new Promise(function (resolve, reject) {
     checkToken().then(function (token) {
       let path = url + '&access_token=' + token;
-      console.log(path);
+      // console.log(path);
       let req = https.request({
         hostname: config.host,
         port: config.port,
@@ -153,15 +153,7 @@ function getToken() {
       res.on('data', (token) => {
         try {
           access_token = JSON.parse(token);
-          if (/[A-Za-z1-9_]*/.test(access_token))
-            resolve(access_token);
-          else {
-            getToken().then(value => {
-              resolve(value);
-            }).catch(e => {
-              reject(e);
-            });
-          }
+          resolve(access_token);
         } catch (e) {
           reject(e);
         }
