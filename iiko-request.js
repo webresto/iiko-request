@@ -153,7 +153,15 @@ function getToken() {
       res.on('data', (token) => {
         try {
           access_token = JSON.parse(token);
-          resolve(access_token);
+          if (/[A-Za-z1-9_]*/.test(access_token))
+            resolve(access_token);
+          else {
+            getToken().then(value => {
+              resolve(value);
+            }).catch(e => {
+              reject(e);
+            });
+          }
         } catch (e) {
           reject(e);
         }
