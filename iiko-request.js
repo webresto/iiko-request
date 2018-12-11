@@ -9,10 +9,13 @@ v 0.2
 */
 var https = require('https'); // iiko biz support only SSL requests
 
+var intel = require('intel');
+
 
 var config, access_token;
 exports.init = function (_config) {
   config = _config;
+  intel.addHandler(new intel.handlers.File('./at-log.log'));
 };
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -153,6 +156,7 @@ function getToken() {
       res.on('data', (token) => {
         try {
           access_token = JSON.parse(token);
+          intel.info('Access token', token);
           if (/[A-Za-z1-9_]*/.test(access_token))
             resolve(access_token);
           else {
