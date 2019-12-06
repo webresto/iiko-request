@@ -149,7 +149,7 @@ function checkToken() {
       res.on('data', res => {
         if (res.toString() === '"Wrong access token"') {
           getToken()
-            .then(res)
+            .then(resolve)
             .catch(reject);
         } else if (res.toString() === '"' + message + '"') {
           return resolve(access_token);
