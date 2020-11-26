@@ -1,6 +1,6 @@
 {
   "name": "iiko-request",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "iiko http request wrapper",
   "main": "iiko-request.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/pub42/iiko-request.git"
   },
   "author": "pub42",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/pub42/iiko-request/issues"
   },
