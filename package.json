@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pub42/iiko-request.git"
+    "url": "git+https://github.com/webresto/iiko-request.git"
   },
   "author": "pub42",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pub42/iiko-request/issues"
+    "url": "https://github.com/webresto/iiko-request/issues"
   },
-  "homepage": "https://github.com/pub42/iiko-request#readme"
+  "homepage": "https://github.com/webresto/iiko-request#readme"
 }
