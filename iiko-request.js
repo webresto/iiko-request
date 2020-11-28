@@ -59,7 +59,7 @@ function fetchUrl(method, data, modifier) {
 function get(url) {
   return new Promise(function (resolve, reject) {
     checkToken().then(token => {
-      let path = url + '&access_token=' + token;
+      let path = url + 'access_token=' + token;
       // console.log(path);
       https.get({
           hostname: config.host,
