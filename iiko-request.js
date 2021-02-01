@@ -1,22 +1,28 @@
 /**
- *
- * name: iiko-card5
+ * name: iiko-request
  * documentation: https://docs.google.com/document/d/1kuhs94UV_0oUkI2CI3uOsNo_dydmh9Q0MFoDWmhzwxc/edit#
- * author: pub42 (xziy, ...)
- *
- * (c) 2018
- * v 0.2
+ * author: Webresto
+ * 2018-2021
+ * v 0.3
  */
-const https = require('https'); // iiko biz support only SSL requests
 
-let config;
+var http;// iiko biz support only SSL requests
+
+let config = undefined;
 let access_token;
 
 function init(_config) {
-  config = _config;
+  let protocol = 'http';
+  config = _config;  
+
+  if(config.ssl === undefined || config.ssl === true ){
+    protocol = 'https';
+  }
+
+  http = require(protocol); 
 }
 
-function call(method, params, modifier, data) {
+function call(method, params, modifier, data) { 
   return new Promise(function (resolve, reject) {
     switch (method.type) {
 
@@ -61,7 +67,7 @@ function get(url) {
     checkToken().then(token => {
       let path = url + 'access_token=' + token;
       // console.log(path);
-      https.get({
+      http.get({
           hostname: config.host,
           port: config.port,
           path: path,
@@ -80,7 +86,7 @@ function post(url, data) {
       let path = url + '&access_token=' + token;
       // console.log(path);
 
-      let req = https.request({
+      let req = http.request({
         hostname: config.host,
         port: config.port,
         path: path,
@@ -107,7 +113,7 @@ function getToken() {
   return new Promise(function (resolve, reject) {
     const path = '/api/0/auth/access_token?user_id=' + config.login + '&user_secret=' + config.password;
 
-    https.get({
+    http.get({
       hostname: config.host,
       port: config.port,
       path: path,
@@ -140,7 +146,7 @@ function checkToken() {
     const path = '/api/0/auth/echo?msg=' + message + '&access_token=' + access_token;
     //console.log(path);
 
-    https.get({
+    http.get({
       hostname: config.host,
       port: config.port,
       path: path,
