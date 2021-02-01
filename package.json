@@ -1,6 +1,6 @@
 {
   "name": "iiko-request",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "IIKO http request wrapper",
   "main": "iiko-request.js",
   "scripts": {
